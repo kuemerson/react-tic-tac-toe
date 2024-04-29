@@ -57,7 +57,7 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const winner = calculateWinner(squares);
   console.log(winner);
-  let status = "";
+  let status;
 
   if (winner) {
     status = "Winner: " + winner;
