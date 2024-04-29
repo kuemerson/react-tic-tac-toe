@@ -50,13 +50,12 @@ function calculateWinner(squares) {
   return null;
 }
 
-export default function Board() {
+function Board({ xIsNext, squares, onPlay }) {
   const board = buildGrid();
-  const [squares, setSquares] = useState(Array(9).fill(null));
+  // const [squares, setSquares] = useState(Array(9).fill(null));
+  // const [xIsNext, setXIsNext] = useState(true);
   // console.log(squares);
-  const [xIsNext, setXIsNext] = useState(true);
   const winner = calculateWinner(squares);
-  console.log(winner);
   let status;
 
   if (winner) {
@@ -67,12 +66,12 @@ export default function Board() {
 
   function handleClick(key) {
     //guard clause to check for square with value
-    if (squares[key] || calculateWinner(squares)) return;
+    console.log(onPlay);
+    if (calculateWinner(squares) || squares[key]) return;
 
     const nextSquares = squares.slice();
     nextSquares[key] = xIsNext ? "X" : "O";
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    onPlay(nextSquares);
   }
 
   return (
@@ -85,7 +84,6 @@ export default function Board() {
               key={square}
               value={squares[square]}
               onSquareClick={() => {
-                // console.log(square);
                 handleClick(square);
               }}
             />
@@ -93,5 +91,30 @@ export default function Board() {
         </div>
       ))}
     </>
+  );
+}
+
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length - 1];
+  // console.log(currentSquares);
+
+  function handlePlay(nextSquares) {
+    setXIsNext(!xIsNext);
+    setHistory([...history, nextSquares]);
+  }
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <ol className="game-info">
+        {
+          //TODO
+        }
+      </ol>
+    </div>
   );
 }
