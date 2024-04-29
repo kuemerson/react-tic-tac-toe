@@ -112,7 +112,7 @@ export default function Game() {
       </div>
       <ol className="game-info">
         {
-          //TODO
+          //TODO: Add time-travel
         }
       </ol>
     </div>
